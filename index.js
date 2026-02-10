@@ -34,6 +34,10 @@ const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
 const findHCF = (arr) => arr.reduce((acc, val) => gcd(acc, val));
 const findLCM = (arr) => arr.reduce((acc, val) => (acc * val) / gcd(acc, val));
 
+// 🔹 Added helper ONLY for LCM & HCF validation
+const isValidIntArray = (arr) =>
+    arr.every(n => Number.isInteger(n) && n > 0);
+
 app.get("/", (req, res) => {
     res.status(200).json({
         is_success: true,
@@ -41,7 +45,6 @@ app.get("/", (req, res) => {
         official_email: OFFICIAL_EMAIL
     });
 });
-
 
 app.get('/health', (req, res) => {
     res.status(200).json({ is_success: true, official_email: OFFICIAL_EMAIL });
@@ -70,12 +73,14 @@ app.post('/bfhl', async (req, res) => {
                 break;
 
             case 'lcm':
-                if (!Array.isArray(value) || value.length === 0) throw new Error("Invalid input");
+                if (!Array.isArray(value) || value.length < 2 || !isValidIntArray(value))
+                    throw new Error("LCM requires at least two positive integers");
                 resultData = findLCM(value);
                 break;
 
             case 'hcf':
-                if (!Array.isArray(value) || value.length === 0) throw new Error("Invalid input");
+                if (!Array.isArray(value) || value.length < 2 || !isValidIntArray(value))
+                    throw new Error("HCF requires at least two positive integers");
                 resultData = findHCF(value);
                 break;
 
