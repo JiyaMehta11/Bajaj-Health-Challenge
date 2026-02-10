@@ -34,6 +34,14 @@ const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
 const findHCF = (arr) => arr.reduce((acc, val) => gcd(acc, val));
 const findLCM = (arr) => arr.reduce((acc, val) => (acc * val) / gcd(acc, val));
 
+app.get("/", (req, res) => {
+    res.status(200).json({
+        is_success: true,
+        message: "Bajaj Health Challenge API is running 🚀",
+        official_email: OFFICIAL_EMAIL
+    });
+});
+
 
 app.get('/health', (req, res) => {
     res.status(200).json({ is_success: true, official_email: OFFICIAL_EMAIL });
